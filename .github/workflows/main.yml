@@ -42,9 +42,25 @@ jobs:
         options:
           bundleIdPrefix: com.wristarcade
           deploymentTarget:
+            iOS: "16.0"
             watchOS: "9.0"
         targets:
           WristArcade:
+            type: application
+            platform: iOS
+            deploymentTarget: "16.0"
+            sources:
+              - path: Companion
+            settings:
+              PRODUCT_BUNDLE_IDENTIFIER: com.wristarcade.app
+              INFOPLIST_FILE: Companion/Info.plist
+              GENERATE_INFOPLIST_KEY_UILaunchScreen_Generation: YES
+              SWIFT_VERSION: "5.9"
+            dependencies:
+              - target: WristArcadeWatch
+                embed: true
+
+          WristArcadeWatch:
             type: application
             platform: watchOS
             deploymentTarget: "9.0"
@@ -56,10 +72,10 @@ jobs:
               - path: Assets.xcassets
               - path: WristArcadeApp.swift
             settings:
-              PRODUCT_BUNDLE_IDENTIFIER: com.wristarcade.app
+              PRODUCT_BUNDLE_IDENTIFIER: com.wristarcade.app.watchkitapp
               INFOPLIST_FILE: Info.plist
               GENERATE_INFOPLIST_KEY_WKApplication: YES
-              GENERATE_INFOPLIST_KEY_WKCompanionAppBundleIdentifier: NO
+              GENERATE_INFOPLIST_KEY_WKCompanionAppBundleIdentifier: YES
               SWIFT_VERSION: "5.9"
         EOF
 
@@ -74,18 +90,18 @@ jobs:
         xcodebuild archive \
           -project WristArcade.xcodeproj \
           -scheme WristArcade \
-          -destination 'generic/platform=watchOS' \
+          -destination 'generic/platform=iOS' \
           -archivePath build/WristArcade.xcarchive \
           CODE_SIGNING_ALLOWED=NO \
           CODE_SIGNING_REQUIRED=NO
         
         mkdir -p build/Payload
-        echo "Searching for built .app bundle..."
-        APP_PATH=$(find build -name "*.app" | head -n 1)
+        echo "Searching for built iOS .app bundle..."
+        APP_PATH=$(find build/WristArcade.xcarchive/Products -name "WristArcade.app" | head -n 1)
         if [ -z "$APP_PATH" ]; then
-          APP_PATH=$(find /Users/runner/Library/Developer/Xcode/DerivedData -name "WristArcade.app" | head -n 1)
+          APP_PATH=$(find build -name "WristArcade.app" | head -n 1)
         fi
-        echo "Packaging App found at: $APP_PATH"
+        echo "Packaging iOS App found at: $APP_PATH"
         cp -r "$APP_PATH" build/Payload/
         cd build
         zip -r WristArcade.ipa Payload
