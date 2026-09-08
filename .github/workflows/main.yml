@@ -1,0 +1,92 @@
+name: Build & Package WristArcade (IPA for Sideloadly)
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Swift Package & Generate IPA
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+
+    - name: Show Swift and Xcode Version
+      run: |
+        swift --version
+        xcodebuild -version
+
+    - name: Build & Test Swift Package
+      working-directory: WristArcade
+      run: |
+        swift test -v
+
+    - name: Install XcodeGen
+      run: |
+        which xcodegen || brew install xcodegen
+
+    - name: Ensure project.yml exists
+      run: |
+        cat << 'EOF' > WristArcade/project.yml
+        name: WristArcade
+        options:
+          bundleIdPrefix: com.wristarcade
+          deploymentTarget:
+            iOS: "16.0"
+            watchOS: "9.0"
+        targets:
+          WristArcade:
+            type: application
+            platform: iOS
+            deploymentTarget: "16.0"
+            sources:
+              - path: .
+                excludes:
+                  - Tests
+                  - Package.swift
+                  - project.yml
+            settings:
+              PRODUCT_BUNDLE_IDENTIFIER: com.wristarcade.app
+              INFOPLIST_FILE: Info.plist
+              GENERATE_INFOPLIST_KEY_UILaunchScreen_Generation: YES
+              ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+              SWIFT_VERSION: "5.9"
+        EOF
+
+    - name: Generate Xcode Project
+      working-directory: WristArcade
+      run: |
+        xcodegen generate
+
+    - name: Archive and Package IPA
+      working-directory: WristArcade
+      run: |
+        xcodebuild archive \
+          -project WristArcade.xcodeproj \
+          -scheme WristArcade \
+          -destination 'generic/platform=iOS' \
+          -archivePath build/WristArcade.xcarchive \
+          CODE_SIGNING_ALLOWED=NO \
+          CODE_SIGNING_REQUIRED=NO
+        
+        mkdir -p build/Payload
+        cp -r build/WristArcade.xcarchive/Products/Applications/WristArcade.app build/Payload/
+        cd build
+        zip -r WristArcade.ipa Payload
+
+    - name: Upload IPA Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: WristArcade-IPA
+        path: WristArcade/build/WristArcade.ipa
+        retention-days: 14
