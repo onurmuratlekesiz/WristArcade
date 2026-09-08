@@ -28,27 +28,104 @@ jobs:
 
     - name: Auto-Heal Swift Files
       run: |
-        python3 -c "
+        python3 -c '
         import os
-        for root, dirs, files in os.walk('.'):
+
+        haptic_code = """import WatchKit
+        import Foundation
+
+        /// Provides standardized haptic feedback across all games using Apple Watch Taptic Engine.
+        public enum GameHapticType {
+            case tap
+            case click
+            case crownTick
+            case bounce
+            case score
+            case combo
+            case victory
+            case gameOver
+            case error
+            case warning
+        }
+
+        public final class HapticManager: ObservableObject {
+            public static let shared = HapticManager()
+            private init() {}
+            public func play(_ type: GameHapticType) {
+                guard UserDefaults.standard.bool(forKey: "haptics_enabled") != false else { return }
+                let device = WKInterfaceDevice.current()
+                switch type {
+                case .tap, .click:
+                    device.play(.click)
+                case .crownTick:
+                    device.play(.directionUp)
+                case .bounce:
+                    device.play(.click)
+                case .score:
+                    device.play(.directionDown)
+                case .combo:
+                    device.play(.success)
+                case .victory:
+                    device.play(.success)
+                case .gameOver:
+                    device.play(.failure)
+                case .error:
+                    device.play(.retry)
+                case .warning:
+                    device.play(.notification)
+                }
+            }
+        }
+        """
+
+        for root, dirs, files in os.walk("."):
             for f in files:
-                if f == 'SettingsView.swift':
+                if f.endswith(".swift"):
                     p = os.path.join(root, f)
-                    with open(p, 'r', encoding='utf-8') as file: s = file.read()
-                    if '.frame(height: 48)\n                    //' in s:
-                        s = s.replace('.frame(height: 48)\n                    //', '.frame(height: 48)\n                    }\n                    //')
-                        with open(p, 'w', encoding='utf-8') as file: file.write(s)
-                        print('Healed SettingsView.swift')
-                elif f == 'ContentView.swift':
-                    p = os.path.join(root, f)
-                    with open(p, 'r', encoding='utf-8') as file: s = file.read()
-                    if '.padding(.horizontal, 4)\n                    \n                    // Category Filter Pills' in s:
-                        s = s.replace('.padding(.horizontal, 4)\n                    \n                    // Category Filter Pills', '.padding(.horizontal, 4)\n                    }\n                    \n                    // Category Filter Pills')
-                    if '            }\n        }\n    }\n    \n    @ViewBuilder' in s:
-                        s = s.replace('            }\n        }\n    }\n    \n    @ViewBuilder', '            }\n        }\n    }\n}\n    \n    @ViewBuilder')
-                    with open(p, 'w', encoding='utf-8') as file: file.write(s)
-                    print('Healed ContentView.swift')
-        "
+                    with open(p, "r", encoding="utf-8") as file:
+                        s = file.read()
+                    changed = False
+                    
+                    if f == "HapticManager.swift":
+                        s = haptic_code
+                        changed = True
+                        print("Auto-healed HapticManager.swift")
+                        
+                    if ".pickerStyle(.segmented)" in s:
+                        s = s.replace(".pickerStyle(.segmented)", "// .pickerStyle(.segmented)")
+                        changed = True
+                        print(f"Removed segmented picker in {f}")
+                        
+                    if f == "WristDuelView.swift":
+                        if "@StateObject private var haptic" in s:
+                            s = s.replace("@StateObject private var haptic", "private let haptic")
+                            changed = True
+                            
+                    if f == "BaccaratGameView.swift":
+                        if "@StateObject private var haptic" in s:
+                            s = s.replace("@StateObject private var haptic", "private let haptic")
+                            changed = True
+                            
+                    if f == "SettingsView.swift":
+                        if ".frame(height: 48)\n                    //" in s:
+                            s = s.replace(".frame(height: 48)\n                    //", ".frame(height: 48)\n                    }\n                    //")
+                            changed = True
+                            print("Fixed braces in SettingsView.swift")
+                            
+                    if f == "ContentView.swift":
+                        if ".padding(.horizontal, 4)\n                    \n                    // Category Filter Pills" in s:
+                            s = s.replace(".padding(.horizontal, 4)\n                    \n                    // Category Filter Pills", ".padding(.horizontal, 4)\n                    }\n                    \n                    // Category Filter Pills")
+                            changed = True
+                        if "            }\n        }\n    }\n    \n    @ViewBuilder" in s:
+                            s = s.replace("            }\n        }\n    }\n    \n    @ViewBuilder", "            }\n        }\n    }\n}\n    \n    @ViewBuilder")
+                            changed = True
+                        print("Checked ContentView.swift")
+                        
+                    if changed:
+                        with open(p, "w", encoding="utf-8") as file:
+                            file.write(s)
+        print("Auto-heal complete!")
+        '
 
     - name: Show Xcode & Swift Version
       run: |
@@ -104,7 +181,9 @@ jobs:
           CODE_SIGNING_REQUIRED=NO
         
         mkdir -p build/Payload
-        cp -r build/WristArcade.xcarchive/Products/Applications/*.app build/Payload/
+        APP_PATH=$(find build/WristArcade.xcarchive/Products -name "*.app" | head -n 1)
+        echo "Packaging App found at: $APP_PATH"
+        cp -r "$APP_PATH" build/Payload/
         cd build
         zip -r WristArcade.ipa Payload
 
