@@ -26,6 +26,30 @@ jobs:
           rm -rf Complications
         fi
 
+    - name: Auto-Heal Swift Files
+      run: |
+        python3 -c "
+        import os
+        for root, dirs, files in os.walk('.'):
+            for f in files:
+                if f == 'SettingsView.swift':
+                    p = os.path.join(root, f)
+                    with open(p, 'r', encoding='utf-8') as file: s = file.read()
+                    if '.frame(height: 48)\n                    //' in s:
+                        s = s.replace('.frame(height: 48)\n                    //', '.frame(height: 48)\n                    }\n                    //')
+                        with open(p, 'w', encoding='utf-8') as file: file.write(s)
+                        print('Healed SettingsView.swift')
+                elif f == 'ContentView.swift':
+                    p = os.path.join(root, f)
+                    with open(p, 'r', encoding='utf-8') as file: s = file.read()
+                    if '.padding(.horizontal, 4)\n                    \n                    // Category Filter Pills' in s:
+                        s = s.replace('.padding(.horizontal, 4)\n                    \n                    // Category Filter Pills', '.padding(.horizontal, 4)\n                    }\n                    \n                    // Category Filter Pills')
+                    if '            }\n        }\n    }\n    \n    @ViewBuilder' in s:
+                        s = s.replace('            }\n        }\n    }\n    \n    @ViewBuilder', '            }\n        }\n    }\n}\n    \n    @ViewBuilder')
+                    with open(p, 'w', encoding='utf-8') as file: file.write(s)
+                    print('Healed ContentView.swift')
+        "
+
     - name: Show Xcode & Swift Version
       run: |
         xcodebuild -version
