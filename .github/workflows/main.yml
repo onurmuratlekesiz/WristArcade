@@ -91,37 +91,34 @@ jobs:
                         changed = True
                         print("Auto-healed HapticManager.swift")
                         
-                    if ".pickerStyle(.segmented)" in s:
-                        s = s.replace(".pickerStyle(.segmented)", "// .pickerStyle(.segmented)")
+                    s_norm = s.replace("\r\n", "\n")
+                    
+                    if ".pickerStyle(.segmented)" in s_norm:
+                        s_norm = s_norm.replace(".pickerStyle(.segmented)", "")
                         changed = True
-                        print(f"Removed segmented picker in {f}")
+                        print(f"Removed .segmented picker in {f}")
                         
-                    if f == "WristDuelView.swift":
-                        if "@StateObject private var haptic" in s:
-                            s = s.replace("@StateObject private var haptic", "private let haptic")
-                            changed = True
-                            
-                    if f == "BaccaratGameView.swift":
-                        if "@StateObject private var haptic" in s:
-                            s = s.replace("@StateObject private var haptic", "private let haptic")
-                            changed = True
-                            
+                    if "@StateObject private var haptic" in s_norm:
+                        s_norm = s_norm.replace("@StateObject private var haptic", "private let haptic")
+                        changed = True
+                        
                     if f == "SettingsView.swift":
-                        if ".frame(height: 48)\n                    //" in s:
-                            s = s.replace(".frame(height: 48)\n                    //", ".frame(height: 48)\n                    }\n                    //")
+                        if "// Wrist Tilt Motion Sensitivity" in s_norm and "}\n                    // Wrist Tilt Motion Sensitivity" not in s_norm:
+                            s_norm = s_norm.replace("// Wrist Tilt Motion Sensitivity", "}\n                    // Wrist Tilt Motion Sensitivity")
                             changed = True
                             print("Fixed braces in SettingsView.swift")
                             
                     if f == "ContentView.swift":
-                        if ".padding(.horizontal, 4)\n                    \n                    // Category Filter Pills" in s:
-                            s = s.replace(".padding(.horizontal, 4)\n                    \n                    // Category Filter Pills", ".padding(.horizontal, 4)\n                    }\n                    \n                    // Category Filter Pills")
+                        if "// Category Filter Pills" in s_norm and "}\n                    \n                    // Category Filter Pills" not in s_norm:
+                            s_norm = s_norm.replace("// Category Filter Pills", "}\n                    \n                    // Category Filter Pills")
                             changed = True
-                        if "            }\n        }\n    }\n    \n    @ViewBuilder" in s:
-                            s = s.replace("            }\n        }\n    }\n    \n    @ViewBuilder", "            }\n        }\n    }\n}\n    \n    @ViewBuilder")
+                        if "@ViewBuilder\n    private func destinationView" in s_norm and "}\n    \n    @ViewBuilder\n    private func destinationView" not in s_norm:
+                            s_norm = s_norm.replace("@ViewBuilder\n    private func destinationView", "}\n    \n    @ViewBuilder\n    private func destinationView")
                             changed = True
                         print("Checked ContentView.swift")
                         
                     if changed:
+                        s = s_norm
                         with open(p, "w", encoding="utf-8") as file:
                             file.write(s)
         print("Auto-heal complete!")
