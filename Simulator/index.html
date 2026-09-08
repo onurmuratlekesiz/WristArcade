@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WristArcade - Apple Watch Simulator (60 Games Diamond Edition)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="simulator-wrapper">
+    <!-- Top Bar / Controls Help -->
+    <header class="sim-header">
+      <div class="brand">
+        <span class="icon">⌚</span>
+        <h1>WristArcade</h1>
+        <span class="badge">watchOS 60 Games Diamond Edition</span>
+      </div>
+      <p class="subtitle" id="simSubtitle">Experience all 60 royalty-free Apple Watch mini-games right in your browser with CoreMotion wrist tilt, multi-language, and How-to-Play guides.</p>
+    </header>
+
+    <div class="watch-and-controls">
+      <!-- Realistic Apple Watch Case -->
+      <div class="watch-case-container" id="watchCaseContainer">
+        <!-- Top and Bottom Strap visual indicators -->
+        <div class="watch-strap strap-top" id="strapTop"></div>
+        <div class="watch-strap strap-bottom" id="strapBottom"></div>
+
+        <!-- Orange Action Button (Watch Ultra Left Side) -->
+        <div class="action-button-btn" id="actionBtn" title="Action Button (Home / Menu)"></div>
+
+        <!-- Main Titanium Watch Case -->
+        <div class="watch-case" id="mainWatchCase">
+          <!-- Watch Bezel Edge -->
+          <div class="watch-bezel">
+            <!-- Screen (OLED) -->
+            <div class="watch-screen" id="watchScreen">
+              <!-- Watch Status Bar -->
+              <div class="watch-statusbar">
+                <span class="watch-time" id="watchTime">10:09</span>
+                <div class="status-icons">
+                  <span class="trophy-pill" id="trophyBtn" title="Achievements / Kupalar">🏆</span>
+                  <span class="lang-pill" id="langPill" title="Toggle Language (TR/EN)">EN</span>
+                  <span class="pro-indicator" id="proStatusIndicator" style="display:none;">PRO</span>
+                  <span class="battery-icon">⚡99%</span>
+                </div>
+              </div>
+
+              <!-- Screen Content Container (App Container) -->
+              <div class="watch-content" id="appRoot">
+                <!-- Dynamically rendered views: Main Menu, Games, Settings, Paywall, How-to-Play, Trophies -->
+              </div>
+              <!-- Celebration Confetti Layer -->
+              <canvas id="confettiCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Digital Crown (Watch Ultra Right Side) -->
+        <div class="crown-assembly">
+          <div class="crown-guard"></div>
+          <div class="digital-crown" id="digitalCrown" title="Rotate Digital Crown (Mouse Wheel or Drag Up/Down)">
+            <div class="crown-grooves"></div>
+            <div class="crown-indicator"></div>
+          </div>
+          <div class="side-button" id="sideBtn" title="Side Button (Settings)"></div>
+        </div>
+      </div>
+
+      <!-- Simulator Side Panel: Guidance & Diagnostics -->
+      <aside class="sim-controls-panel">
+        <div class="panel-card">
+          <h3 id="panelControlsTitle">🎮 Watch Controls</h3>
+          <ul class="controls-list">
+            <li><strong>Digital Crown:</strong> Scroll mouse wheel over the watch or drag the crown up/down. Controls Safe Cracker, Table Tennis, Space Defender, paddles, and runners!</li>
+            <li><strong>Wrist Motion Tilt:</strong> In tilt-enabled games (Micro Circuit), drag mouse horizontally or tilt your phone to steer with gyroscope physics!</li>
+            <li><strong>Touch / Tap:</strong> Click buttons & cards directly on the OLED screen.</li>
+            <li><strong>How to Play (?):</strong> Click the <strong>(?)</strong> icon on any game card or inside any game to see instant rules & controls!</li>
+            <li><strong>Orange Action Button:</strong> Click the orange button on the left to return to the Main Menu.</li>
+          </ul>
+        </div>
+
+        <!-- Watch Customizer (Case & Strap Themes + Software Accent Themes) -->
+        <div class="panel-card theme-card">
+          <h3>🎨 Hardware Case & Strap</h3>
+          <div class="theme-options">
+            <button class="theme-btn active" data-theme="titanium-orange">
+              <span class="theme-dot" style="background:#f97316;"></span>
+              Titanium • Alpine Orange
+            </button>
+            <button class="theme-btn" data-theme="midnight-ocean">
+              <span class="theme-dot" style="background:#0284c7;"></span>
+              Space Black • Ocean Blue
+            </button>
+            <button class="theme-btn" data-theme="starlight-trail">
+              <span class="theme-dot" style="background:#e2e8f0;"></span>
+              Starlight • Trail Gray
+            </button>
+          </div>
+
+          <h3 style="margin-top: 12px;">✨ Software Display Theme</h3>
+          <div class="theme-options">
+            <button class="theme-btn active" data-soft-theme="classic">
+              <span class="theme-dot" style="background:#00f5d4;"></span>
+              Classic Neon
+            </button>
+            <button class="theme-btn" data-soft-theme="cyberpunk">
+              <span class="theme-dot" style="background:#ffe600;"></span>
+              Cyberpunk 2077
+            </button>
+            <button class="theme-btn" data-soft-theme="gameboy">
+              <span class="theme-dot" style="background:#8bac0f;"></span>
+              Retro Game Boy
+            </button>
+            <button class="theme-btn" data-soft-theme="amber">
+              <span class="theme-dot" style="background:#ffb000;"></span>
+              Amber CRT '82
+            </button>
+            <button class="theme-btn" data-soft-theme="gold">
+              <span class="theme-dot" style="background:#ffd700;"></span>
+              Royal Gold
+            </button>
+            <button class="theme-btn" data-soft-theme="stealth">
+              <span class="theme-dot" style="background:#ff3366;"></span>
+              OLED Stealth
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3 id="panelStatusTitle">💎 Commercial & Legal Status</h3>
+          <div class="status-grid">
+            <div class="status-item ok">
+              <span class="dot"></span>
+              <strong>100% Royalty Free</strong>
+              <span>60 generic mechanics (Cards, Dice, Crown, Speed, Puzzles, Battleship, Reversi, Darts, Drift, Bomb Defusal, 24 Solver, Table Tennis, 21 Duel). Zero trademark risk.</span>
+            </div>
+            <div class="status-item ok">
+              <span class="dot"></span>
+              <strong>StoreKit 2 Enabled</strong>
+              <span>17 Free Games + 43 Pro Games ($2.99 one-time unlock) + Daily Free Pro Pass.</span>
+            </div>
+            <div class="status-item ok">
+              <span class="dot"></span>
+              <strong>Multi-Language (TR / EN)</strong>
+              <span>Auto-detects phone language with manual in-app switcher.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-card quick-actions">
+          <h3 id="panelActionsTitle">⚡ Quick Simulation Actions</h3>
+          <div class="action-buttons">
+            <button id="openGauntletBtn" class="btn-secondary">⚡ Launch Arcade Gauntlet (Blitz)</button>
+            <button id="openStatsActionBtn" class="btn-secondary">📊 Stats, XP & Level Profile</button>
+            <button id="openDuelActionBtn" class="btn-secondary">⚔️ Launch 2-Player Wrist Duel</button>
+            <button id="toggleLangBtn" class="btn-secondary">🌐 Dili Değiştir / Switch Language</button>
+            <button id="toggleSoundBtn" class="btn-secondary">🔊 Sound: ON</button>
+            <button id="openTrophiesActionBtn" class="btn-secondary">🏆 Achievements & Badges</button>
+            <button id="openMockupBtn" class="btn-secondary">📸 App Store Mockup & Promo</button>
+            <button id="toggleProBtn" class="btn-secondary">👑 Toggle Pro Unlock (Test IAP)</button>
+            <button id="resetAllDataBtn" class="btn-secondary">🔄 Reset High Scores</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

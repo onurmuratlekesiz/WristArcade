@@ -1,0 +1,20 @@
+{
+  "name": "wrist-arcade-simulator",
+  "version": "1.0.0",
+  "description": "WristArcade Apple Watch 40 Games Mega Edition Web Simulator",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "node server.js",
+    "test": "node scripts/verify-parity.js"
+  },
+  "keywords": [
+    "watchos",
+    "simulator",
+    "arcade",
+    "games"
+  ],
+  "author": "",
+  "license": "MIT"
+}
