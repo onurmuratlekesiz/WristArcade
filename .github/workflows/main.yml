@@ -83,6 +83,7 @@ jobs:
       run: |
         cd $DIR
         xcodegen generate
+        sed -i '' -e 's|dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";|dstPath = "";|g' -e 's|dstSubfolderSpec = 16;|dstSubfolderSpec = 13;|g' WristArcade.xcodeproj/project.pbxproj || true
 
     - name: Archive and Package IPA
       run: |
@@ -103,6 +104,14 @@ jobs:
         fi
         echo "Packaging iOS App found at: $APP_PATH"
         cp -r "$APP_PATH" build/Payload/
+        
+        WATCH_APP=$(find build -name "WristArcadeWatch.app" | head -n 1)
+        if [ -n "$WATCH_APP" ]; then
+          echo "Ensuring watch app in Payload/WristArcade.app/Watch/..."
+          mkdir -p build/Payload/WristArcade.app/Watch
+          cp -r "$WATCH_APP" build/Payload/WristArcade.app/Watch/ || true
+        fi
+        
         cd build
         zip -r WristArcade.ipa Payload
 

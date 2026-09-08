@@ -26,8 +26,6 @@
     <true/>
     <key>WKCompanionAppBundleIdentifier</key>
     <string>com.wristarcade.app</string>
-    <key>WKWatchKitApp</key>
-    <true/>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
 </dict>
