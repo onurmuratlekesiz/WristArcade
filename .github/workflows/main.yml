@@ -16,19 +16,24 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Set up Xcode
-      uses: maxim-lobanov/setup-xcode@v1
-      with:
-        xcode-version: latest-stable
-
-    - name: Show Swift and Xcode Version
+    - name: Detect Project Directory
       run: |
-        swift --version
+        pwd
+        ls -la
+        if [ -d "WristArcade" ]; then
+          echo "DIR=WristArcade" >> $GITHUB_ENV
+        else
+          echo "DIR=." >> $GITHUB_ENV
+        fi
+
+    - name: Show Xcode & Swift Version
+      run: |
         xcodebuild -version
+        swift --version
 
     - name: Build & Test Swift Package
-      working-directory: WristArcade
       run: |
+        cd $DIR
         swift test -v
 
     - name: Install XcodeGen
@@ -37,7 +42,7 @@ jobs:
 
     - name: Ensure project.yml exists
       run: |
-        cat << 'EOF' > WristArcade/project.yml
+        cat << 'EOF' > $DIR/project.yml
         name: WristArcade
         options:
           bundleIdPrefix: com.wristarcade
@@ -64,13 +69,13 @@ jobs:
         EOF
 
     - name: Generate Xcode Project
-      working-directory: WristArcade
       run: |
+        cd $DIR
         xcodegen generate
 
     - name: Archive and Package IPA
-      working-directory: WristArcade
       run: |
+        cd $DIR
         xcodebuild archive \
           -project WristArcade.xcodeproj \
           -scheme WristArcade \
@@ -88,5 +93,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: WristArcade-IPA
-        path: WristArcade/build/WristArcade.ipa
+        path: |
+          WristArcade/build/WristArcade.ipa
+          build/WristArcade.ipa
         retention-days: 14
