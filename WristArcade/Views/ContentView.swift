@@ -194,7 +194,8 @@ public struct ContentView: View {
                                     )
                             )
                         }
-                    .padding(.horizontal, 4)
+                        .padding(.horizontal, 4)
+                    }
                     
                     // Category Filter Pills
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -296,6 +297,7 @@ public struct ContentView: View {
             }
         }
     }
+}
     
     @ViewBuilder
     private func destinationView(for game: GameItem) -> some View {
