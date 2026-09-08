@@ -46,7 +46,7 @@ public struct SnakeGameView: View {
     @State private var crownAccumulator: Double = 0.0
     @State private var crownValue: Double = 0.0
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let cellWidth = geo.size.width / CGFloat(gridWidth)
             let cellHeight = geo.size.height / CGFloat(gridHeight)

@@ -24,7 +24,7 @@ public struct MicroSolitaireGameView: View {
     @State private var isVictory: Bool = false
     @State private var isGameOver: Bool = false
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             ZStack {
                 Color.black.ignoresSafeArea()

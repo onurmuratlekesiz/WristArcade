@@ -23,7 +23,7 @@ public struct WingFlapGameView: View {
     private let pipeGap: CGFloat = 58.0
     private let pipeWidth: CGFloat = 18.0
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let fieldW = geo.size.width
             let fieldH = geo.size.height
@@ -99,7 +99,6 @@ public struct WingFlapGameView: View {
                                 .clipShape(Capsule())
                         }
                         .buttonStyle(.plain)
-                        .handGestureShortcut(.primaryAction)
                     }
                 } else {
                     VStack(spacing: 6) {
@@ -126,7 +125,6 @@ public struct WingFlapGameView: View {
                                 .clipShape(Capsule())
                         }
                         .buttonStyle(.plain)
-                        .handGestureShortcut(.primaryAction)
                     }
                 }
             }

@@ -21,7 +21,7 @@ public struct PaddleGameView: View {
     private let paddleHeight: CGFloat = 8.0
     private let ballRadius: CGFloat = 6.0
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let fieldWidth = geo.size.width
             let fieldHeight = geo.size.height

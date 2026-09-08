@@ -13,6 +13,9 @@ public enum GameHapticType {
     case gameOver
     case error
     case warning
+    case failure
+    case success
+    case directionUp
 }
 
 public final class HapticManager: ObservableObject {
@@ -28,7 +31,7 @@ public final class HapticManager: ObservableObject {
         switch type {
         case .tap, .click:
             device.play(.click)
-        case .crownTick:
+        case .crownTick, .directionUp:
             device.play(.directionUp)
         case .bounce:
             device.play(.click)
@@ -36,9 +39,9 @@ public final class HapticManager: ObservableObject {
             device.play(.directionDown)
         case .combo:
             device.play(.success)
-        case .victory:
+        case .victory, .success:
             device.play(.success)
-        case .gameOver:
+        case .gameOver, .failure:
             device.play(.failure)
         case .error:
             device.play(.retry)

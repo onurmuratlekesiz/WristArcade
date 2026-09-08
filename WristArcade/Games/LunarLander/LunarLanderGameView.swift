@@ -158,7 +158,7 @@ public struct LunarLanderGameView: View {
                 isContinuous: true,
                 isHapticFeedbackEnabled: true
             )
-            .onChange(of: crownAccumulator) { _, newVal in
+            .onChange(of: crownAccumulator) { newVal in
                 if newVal > 0 {
                     applyThrust()
                 } else if newVal < 0 {

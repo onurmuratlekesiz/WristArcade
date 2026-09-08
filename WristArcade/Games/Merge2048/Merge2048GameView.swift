@@ -9,7 +9,7 @@ public struct Merge2048GameView: View {
     @State private var isPlaying: Bool = false
     @State private var isNewRecord: Bool = false
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let boardSize = min(geo.size.width, geo.size.height) - 10
             let tileSize = (boardSize - 15) / 4

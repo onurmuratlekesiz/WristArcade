@@ -29,7 +29,7 @@ public struct ColorMemoryGameView: View {
     @State private var isNewRecord: Bool = false
     @State private var round: Int = 0
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let size = min(geo.size.width, geo.size.height) - 16
             let btnSize = (size - 8) / 2

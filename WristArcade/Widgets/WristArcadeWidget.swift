@@ -44,9 +44,9 @@ public struct WristArcadeTimelineProvider: TimelineProvider {
     
     public func getSnapshot(in context: Context, completion: @escaping (WristArcadeWidgetEntry) -> Void) {
         let challenge = ChallengeManager.generateTodayChallenge()
-        let streak = ScoreManager.shared.currentStreak
+        let streak = ChallengeManager.shared.currentStreak
         let level = XPManager.shared.currentLevel
-        let completed = ScoreManager.shared.isChallengeCompleted()
+        let completed = ChallengeManager.shared.isTodayCompleted
         
         let entry = WristArcadeWidgetEntry(
             date: Date(),
@@ -61,9 +61,9 @@ public struct WristArcadeTimelineProvider: TimelineProvider {
     
     public func getTimeline(in context: Context, completion: @escaping (Timeline<WristArcadeWidgetEntry>) -> Void) {
         let challenge = ChallengeManager.generateTodayChallenge()
-        let streak = ScoreManager.shared.currentStreak
+        let streak = ChallengeManager.shared.currentStreak
         let level = XPManager.shared.currentLevel
-        let completed = ScoreManager.shared.isChallengeCompleted()
+        let completed = ChallengeManager.shared.isTodayCompleted
         
         let entry = WristArcadeWidgetEntry(
             date: Date(),

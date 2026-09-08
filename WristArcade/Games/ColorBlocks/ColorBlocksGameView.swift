@@ -36,7 +36,7 @@ public struct ColorBlocksGameView: View {
     
     @State private var crownVal: Double = 2.0
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let boardW = geo.size.width - 24
             let blockSize = boardW / CGFloat(cols)

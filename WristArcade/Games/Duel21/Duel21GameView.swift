@@ -137,7 +137,6 @@ public struct Duel21GameView: View {
                             .background(Capsule().fill(Color.green))
                     }
                     .buttonStyle(.plain)
-                    .handGestureShortcut(.primaryAction)
                     
                     Button(action: endCurrentPlayerTurn) {
                         Text("STAND")

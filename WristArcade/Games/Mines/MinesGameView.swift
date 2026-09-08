@@ -24,7 +24,7 @@ public struct MinesGameView: View {
     @State private var isVictory: Bool = false
     @State private var firstTap: Bool = true
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let boardSize = min(geo.size.width, geo.size.height) - 20
             let cellSize = (boardSize - 10) / CGFloat(cols)

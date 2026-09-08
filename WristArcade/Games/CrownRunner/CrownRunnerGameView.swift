@@ -23,7 +23,7 @@ public struct CrownRunnerGameView: View {
     
     @State private var crownDummy: Double = 0.0
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let fieldW = geo.size.width
             let fieldH = geo.size.height

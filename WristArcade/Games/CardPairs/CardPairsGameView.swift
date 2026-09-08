@@ -21,7 +21,7 @@ public struct CardPairsGameView: View {
     private let symbols = ["♠", "♥", "♦", "♣", "⭐", "⚡"]
     private let colors: [Color] = [.white, .red, .orange, .cyan, .yellow, .purple]
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let boardWidth = geo.size.width - 12
             let cardW = (boardWidth - 12) / 3

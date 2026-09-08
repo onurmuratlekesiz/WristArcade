@@ -13,7 +13,7 @@ public struct SafeCrackerGameView: View {
     @State private var isGameOver: Bool = false
     @State private var safesCracked: Int = 0
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let currentNumber = (Int(dialValue) % 100 + 100) % 100
             

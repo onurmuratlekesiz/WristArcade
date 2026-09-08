@@ -19,7 +19,7 @@ public struct TicTacToeGameView: View {
     @State private var isDraw: Bool = false
     @State private var isPlaying: Bool = false
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let boardSize = min(geo.size.width, geo.size.height) - 24
             let cellSize = (boardSize - 12) / 3

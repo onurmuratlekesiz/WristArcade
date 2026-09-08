@@ -10,7 +10,7 @@ public struct WhackDotGameView: View {
     @State private var isGameOver: Bool = false
     @State private var isNewRecord: Bool = false
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let boardSize = min(geo.size.width, geo.size.height) - 16
             let holeSize = (boardSize - 16) / 3

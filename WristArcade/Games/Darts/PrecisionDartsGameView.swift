@@ -127,7 +127,6 @@ public struct PrecisionDartsGameView: View {
                         .cornerRadius(6)
                 }
                 .buttonStyle(.plain)
-                .handGestureShortcut(.primaryAction) // watchOS 10/11 Double Tap gesture
             } else {
                 Button(action: startNewGame) {
                     Text("Play Again")
@@ -139,7 +138,6 @@ public struct PrecisionDartsGameView: View {
                         .cornerRadius(6)
                 }
                 .buttonStyle(.plain)
-                .handGestureShortcut(.primaryAction)
             }
         }
         .padding(4)

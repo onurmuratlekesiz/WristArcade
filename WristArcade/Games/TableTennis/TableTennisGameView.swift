@@ -117,7 +117,7 @@ public struct TableTennisGameView: View {
             }
             .focusable()
             .digitalCrownRotation($crownRotation, from: -Double.infinity, through: Double.infinity, by: 1.0, sensitivity: .high, isContinuous: true, isHapticFeedbackEnabled: false)
-            .onChange(of: crownRotation) { _, newVal in
+            .onChange(of: crownRotation) { newVal in
                 let targetX = playerPaddleX + newVal * 2.0
                 playerPaddleX = max(paddleWidth / 2 + 6, min(screenWidth - paddleWidth / 2 - 6, targetX))
                 crownRotation = 0.0

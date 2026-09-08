@@ -53,6 +53,10 @@ public enum ArcadeTheme: String, CaseIterable, Identifiable {
         case .oled: return Color(white: 0.12)
         }
     }
+
+    public var accentColor: Color {
+        primaryAccent
+    }
 }
 
 /// Manages active visual theme persistence

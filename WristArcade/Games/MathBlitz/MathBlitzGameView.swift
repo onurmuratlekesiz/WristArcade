@@ -12,7 +12,7 @@ public struct MathBlitzGameView: View {
     @State private var isGameOver: Bool = false
     @State private var isNewRecord: Bool = false
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             ZStack {
                 Color.black.ignoresSafeArea()

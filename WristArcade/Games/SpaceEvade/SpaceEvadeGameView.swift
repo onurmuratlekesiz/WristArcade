@@ -24,7 +24,7 @@ public struct SpaceEvadeGameView: View {
     private let shipWidth: CGFloat = 20.0
     private let shipHeight: CGFloat = 16.0
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let fieldW = geo.size.width
             let fieldH = geo.size.height

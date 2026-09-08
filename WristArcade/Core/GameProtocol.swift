@@ -8,6 +8,7 @@ public struct GameItem: Identifiable, Hashable {
     public let systemIcon: String
     public let accentColor: Color
     public let isFreeByDefault: Bool
+    public var isPro: Bool { !isFreeByDefault }
     public let crownSupported: Bool
     public let categoryKey: String
     

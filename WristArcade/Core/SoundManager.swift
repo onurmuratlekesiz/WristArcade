@@ -5,10 +5,12 @@ import AVFoundation
 /// Retro 8-bit sound effects types for WristArcade games
 public enum GameSoundType {
     case tap
+    case click
     case flip
     case point
     case victory
     case gameOver
+    case gameover
     case laser
     case explosion
     case powerup
@@ -40,13 +42,13 @@ public final class SoundManager: ObservableObject {
         // Use WKInterfaceDevice audio cues as primary ultra-low-latency watch sound
         let device = WKInterfaceDevice.current()
         switch sound {
-        case .tap, .flip, .cardDeal:
+        case .tap, .click, .flip, .cardDeal:
             device.play(.click)
         case .point:
             device.play(.directionUp)
         case .victory, .powerup:
             device.play(.success)
-        case .gameOver:
+        case .gameOver, .gameover:
             device.play(.failure)
         case .laser:
             device.play(.directionDown)

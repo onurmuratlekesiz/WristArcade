@@ -149,7 +149,7 @@ public struct AirHockeyGameView: View {
                 isContinuous: true,
                 isHapticFeedbackEnabled: true
             )
-            .onChange(of: crownAccumulator) { _, newVal in
+            .onChange(of: crownAccumulator) { newVal in
                 let step = CGFloat(newVal) * 2.0
                 crownAccumulator = 0
                 playerX = max(paddleRadius + 4, min(fieldWidth - paddleRadius - 4, playerX + step))

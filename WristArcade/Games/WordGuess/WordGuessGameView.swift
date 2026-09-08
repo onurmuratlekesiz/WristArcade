@@ -33,7 +33,7 @@ public struct WordGuessGameView: View {
     
     private let alphabet = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             ZStack {
                 Color.black.ignoresSafeArea()

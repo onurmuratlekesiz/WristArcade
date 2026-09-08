@@ -15,7 +15,7 @@ public struct ReflexTapGameView: View {
     @State private var startTime: Date = Date()
     @State private var waitTask: Task<Void, Never>? = nil
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             ZStack {
                 backgroundColor()

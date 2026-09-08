@@ -167,7 +167,6 @@ public struct BlackjackGameView: View {
                                             .clipShape(Capsule())
                                     }
                                     .buttonStyle(.plain)
-                                    .handGestureShortcut(.primaryAction)
                                 }
                             }
                             .padding(.top, 1)
@@ -183,7 +182,6 @@ public struct BlackjackGameView: View {
                                         .clipShape(Capsule())
                                 }
                                 .buttonStyle(.plain)
-                                .handGestureShortcut(.primaryAction)
                                 
                                 Button(action: stand) {
                                     Text("STAND")

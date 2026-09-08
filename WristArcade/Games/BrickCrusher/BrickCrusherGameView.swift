@@ -32,7 +32,7 @@ public struct BrickCrusherGameView: View {
     private let paddleHeight: CGFloat = 7.0
     private let ballRadius: CGFloat = 5.0
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             let fieldWidth = geo.size.width
             let fieldHeight = geo.size.height
