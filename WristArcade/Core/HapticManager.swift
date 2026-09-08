@@ -4,6 +4,7 @@ import Foundation
 /// Provides standardized haptic feedback across all games using Apple Watch Taptic Engine.
 public enum GameHapticType {
     case tap
+    case click
     case crownTick
     case bounce
     case score
@@ -14,7 +15,7 @@ public enum GameHapticType {
     case warning
 }
 
-public final class HapticManager {
+public final class HapticManager: ObservableObject {
     public static let shared = HapticManager()
     
     private init() {}
@@ -25,7 +26,7 @@ public final class HapticManager {
         
         let device = WKInterfaceDevice.current()
         switch type {
-        case .tap:
+        case .tap, .click:
             device.play(.click)
         case .crownTick:
             device.play(.directionUp)
