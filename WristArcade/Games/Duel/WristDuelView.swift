@@ -18,7 +18,7 @@ public enum DuelMode: String, CaseIterable, Identifiable {
 
 public struct WristDuelView: View {
     @State private var selectedMode: DuelMode = .reflex
-    @StateObject private var haptic = HapticManager.shared
+    private let haptic = HapticManager.shared
     @Environment(\.dismiss) private var dismiss
     
     // Reflex Duel State
@@ -47,15 +47,24 @@ public struct WristDuelView: View {
     
     public var body: some View {
         VStack(spacing: 4) {
-            // Mode Picker
-            Picker("Duel Mode", selection: $selectedMode) {
+            // Mode Selector
+            HStack(spacing: 4) {
                 ForEach(DuelMode.allCases) { mode in
-                    Text(mode.title).tag(mode)
+                    Button(action: { selectedMode = mode }) {
+                        Text(mode == .reflex ? "⚡ Reflex" : (mode == .tictactoe ? "⭕ TicTac" : "🃏 Cards"))
+                            .font(.system(size: 9, weight: selectedMode == mode ? .bold : .regular))
+                            .foregroundColor(selectedMode == mode ? .black : .white)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 24)
+                            .background(selectedMode == mode ? Color.orange : Color.white.opacity(0.15))
+                            .clipShape(Capsule())
+                    }
+                    .buttonStyle(.plain)
                 }
             }
-            .pickerStyle(.segmented)
             .padding(.horizontal, 4)
-            .frame(height: 28)
             
             switch selectedMode {
             case .reflex:
