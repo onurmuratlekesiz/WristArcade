@@ -2,7 +2,7 @@ import SwiftUI
 import WatchKit
 
 public struct NineMenMorrisGameView: View {
-    enum GamePhase {
+    enum GamePhase: Equatable {
         case placing
         case moving
         case removing(byPlayer: Bool)
@@ -20,7 +20,7 @@ public struct NineMenMorrisGameView: View {
     @State private var statusText: String = "Taşını boş noktaya koy (9 kaldı)"
     @State private var score: Int = 0
     
-    @StateObject private var haptic = HapticManager.shared
+    private let haptic = HapticManager.shared
     @StateObject private var scoreManager = ScoreManager.shared
     
     // Node coordinates in 170x170 box

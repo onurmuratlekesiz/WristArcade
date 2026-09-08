@@ -49,4 +49,12 @@ public final class HapticManager: ObservableObject {
             device.play(.notification)
         }
     }
+
+    public func playVictory() {
+        play(.victory)
+    }
+
+    public func playFailure() {
+        play(.failure)
+    }
 }

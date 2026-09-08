@@ -57,6 +57,10 @@ public enum ArcadeTheme: String, CaseIterable, Identifiable {
     public var accentColor: Color {
         primaryAccent
     }
+
+    public var secondaryColor: Color {
+        secondaryAccent
+    }
 }
 
 /// Manages active visual theme persistence

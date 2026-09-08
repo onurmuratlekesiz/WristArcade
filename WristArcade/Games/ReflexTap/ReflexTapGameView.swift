@@ -3,7 +3,7 @@ import SwiftUI
 public struct ReflexTapGameView: View {
     @StateObject private var scoreManager = ScoreManager.shared
     
-    enum State {
+    enum PlayState {
         case idle
         case waiting
         case ready
@@ -11,7 +11,7 @@ public struct ReflexTapGameView: View {
         case early
     }
     
-    @State private var gameState: State = .idle
+    @State private var gameState: PlayState = .idle
     @State private var startTime: Date = Date()
     @State private var waitTask: Task<Void, Never>? = nil
     
