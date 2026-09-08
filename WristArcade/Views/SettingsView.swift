@@ -83,6 +83,8 @@ public struct SettingsView: View {
                         }
                         .pickerStyle(.wheel)
                         .frame(height: 48)
+                    }
+                    
                     // Wrist Tilt Motion Sensitivity
                     VStack(alignment: .leading, spacing: 3) {
                         HStack(spacing: 6) {
@@ -94,15 +96,40 @@ public struct SettingsView: View {
                             Spacer()
                         }
                         
-                        Picker(i18n.t("motion_sensitivity"), selection: Binding(
-                            get: { MotionManager.shared.sensitivity },
-                            set: { MotionManager.shared.setSensitivity($0) }
-                        )) {
-                            Text("0.5x Low").tag(0.5)
-                            Text("1.0x Normal").tag(1.0)
-                            Text("1.5x High").tag(1.5)
+                        HStack(spacing: 4) {
+                            Button(action: { MotionManager.shared.setSensitivity(0.5) }) {
+                                Text("0.5x")
+                                    .font(.system(size: 9, weight: MotionManager.shared.sensitivity == 0.5 ? .bold : .regular))
+                                    .foregroundColor(MotionManager.shared.sensitivity == 0.5 ? .black : .white)
+                                    .padding(.vertical, 3)
+                                    .frame(maxWidth: .infinity)
+                                    .background(MotionManager.shared.sensitivity == 0.5 ? Color.green : Color.white.opacity(0.12))
+                                    .clipShape(Capsule())
+                            }
+                            .buttonStyle(.plain)
+                            
+                            Button(action: { MotionManager.shared.setSensitivity(1.0) }) {
+                                Text("1.0x")
+                                    .font(.system(size: 9, weight: MotionManager.shared.sensitivity == 1.0 ? .bold : .regular))
+                                    .foregroundColor(MotionManager.shared.sensitivity == 1.0 ? .black : .white)
+                                    .padding(.vertical, 3)
+                                    .frame(maxWidth: .infinity)
+                                    .background(MotionManager.shared.sensitivity == 1.0 ? Color.green : Color.white.opacity(0.12))
+                                    .clipShape(Capsule())
+                            }
+                            .buttonStyle(.plain)
+                            
+                            Button(action: { MotionManager.shared.setSensitivity(1.5) }) {
+                                Text("1.5x")
+                                    .font(.system(size: 9, weight: MotionManager.shared.sensitivity == 1.5 ? .bold : .regular))
+                                    .foregroundColor(MotionManager.shared.sensitivity == 1.5 ? .black : .white)
+                                    .padding(.vertical, 3)
+                                    .frame(maxWidth: .infinity)
+                                    .background(MotionManager.shared.sensitivity == 1.5 ? Color.green : Color.white.opacity(0.12))
+                                    .clipShape(Capsule())
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .pickerStyle(.segmented)
                     }
                     .padding(4)
                     .background(Color.white.opacity(0.06))
