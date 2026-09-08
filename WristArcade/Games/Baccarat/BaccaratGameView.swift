@@ -10,7 +10,7 @@ public struct BaccaratGameView: View {
     @State private var roundResult: String = "Bahsinizi seçip DAĞIT'a dokunun"
     @State private var isPlaying: Bool = false
     
-    @StateObject private var haptic = HapticManager.shared
+    private let haptic = HapticManager.shared
     @StateObject private var scoreManager = ScoreManager.shared
     
     enum BetTarget: String, CaseIterable, Identifiable {
@@ -74,14 +74,21 @@ public struct BaccaratGameView: View {
                     .multilineTextAlignment(.center)
                     .frame(height: 22)
                 
-                // Bet Target Segmented Picker
-                Picker("Bahis", selection: $selectedBet) {
+                // Bet Target Buttons
+                HStack(spacing: 4) {
                     ForEach(BetTarget.allCases) { b in
-                        Text(b.rawValue).tag(b)
+                        Button(action: { selectedBet = b }) {
+                            Text(b.rawValue)
+                                .font(.system(size: 9, weight: selectedBet == b ? .bold : .regular))
+                                .foregroundColor(selectedBet == b ? .black : .white)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 22)
+                                .background(selectedBet == b ? Color.cyan : Color.white.opacity(0.12))
+                                .clipShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
-                .pickerStyle(.segmented)
-                .frame(height: 24)
                 .disabled(isPlaying)
                 
                 // Deal button
