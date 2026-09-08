@@ -1,0 +1,63 @@
+{
+  "images" : [
+    {
+      "idiom" : "watch",
+      "platform" : "watchOS",
+      "role" : "appLauncher",
+      "scale" : "2x",
+      "size" : "40x40"
+    },
+    {
+      "idiom" : "watch",
+      "platform" : "watchOS",
+      "role" : "appLauncher",
+      "scale" : "2x",
+      "size" : "44x44"
+    },
+    {
+      "idiom" : "watch",
+      "platform" : "watchOS",
+      "role" : "appLauncher",
+      "scale" : "2x",
+      "size" : "46x46"
+    },
+    {
+      "idiom" : "watch",
+      "platform" : "watchOS",
+      "role" : "appLauncher",
+      "scale" : "2x",
+      "size" : "51x51"
+    },
+    {
+      "idiom" : "watch",
+      "platform" : "watchOS",
+      "role" : "quickLook",
+      "scale" : "2x",
+      "size" : "86x86"
+    },
+    {
+      "idiom" : "watch",
+      "platform" : "watchOS",
+      "role" : "quickLook",
+      "scale" : "2x",
+      "size" : "98x98"
+    },
+    {
+      "idiom" : "watch",
+      "platform" : "watchOS",
+      "role" : "quickLook",
+      "scale" : "2x",
+      "size" : "108x108"
+    },
+    {
+      "idiom" : "watch-marketing",
+      "platform" : "watchOS",
+      "scale" : "1x",
+      "size" : "1024x1024"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

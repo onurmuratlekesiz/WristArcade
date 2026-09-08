@@ -1,0 +1,24 @@
+name: WristArcade
+options:
+  bundleIdPrefix: com.wristarcade
+  deploymentTarget:
+    iOS: "16.0"
+    watchOS: "9.0"
+
+targets:
+  WristArcade:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: .
+        excludes:
+          - Tests
+          - Package.swift
+          - project.yml
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.wristarcade.app
+      INFOPLIST_FILE: Info.plist
+      GENERATE_INFOPLIST_KEY_UILaunchScreen_Generation: YES
+      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+      SWIFT_VERSION: "5.9"
