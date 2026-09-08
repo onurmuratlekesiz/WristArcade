@@ -16,12 +16,14 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Detect Project Directory
+    - name: Detect Project Directory & Clean Duplicates
       run: |
         if [ -d "WristArcade" ]; then
           echo "DIR=WristArcade" >> $GITHUB_ENV
+          rm -rf WristArcade/Complications
         else
           echo "DIR=." >> $GITHUB_ENV
+          rm -rf Complications
         fi
 
     - name: Show Xcode & Swift Version
@@ -50,7 +52,6 @@ jobs:
               - path: Core
               - path: Games
               - path: Views
-              - path: Complications
               - path: Widgets
               - path: Assets.xcassets
               - path: WristArcadeApp.swift
