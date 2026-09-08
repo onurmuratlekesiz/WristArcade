@@ -16,6 +16,8 @@ public enum GameHapticType {
     case failure
     case success
     case directionUp
+    case start
+    case impact
 }
 
 public final class HapticManager: ObservableObject {
@@ -29,7 +31,7 @@ public final class HapticManager: ObservableObject {
         
         let device = WKInterfaceDevice.current()
         switch type {
-        case .tap, .click:
+        case .tap, .click, .impact:
             device.play(.click)
         case .crownTick, .directionUp:
             device.play(.directionUp)
@@ -47,7 +49,21 @@ public final class HapticManager: ObservableObject {
             device.play(.retry)
         case .warning:
             device.play(.notification)
+        case .start:
+            device.play(.start)
         }
+    }
+
+    public func playClick() {
+        play(.click)
+    }
+
+    public func playSuccess() {
+        play(.success)
+    }
+
+    public func playImpact() {
+        play(.click)
     }
 
     public func playVictory() {

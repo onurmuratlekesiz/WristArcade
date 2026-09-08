@@ -1,5 +1,7 @@
 import SwiftUI
 
+public typealias GameTutorialSheetView = GameInfoSheet
+
 /// A modern, watchOS-optimized modal sheet that explains How to Play any game
 /// with Objectives, Controls, and Pro Tips in the active language.
 public struct GameInfoSheet: View {

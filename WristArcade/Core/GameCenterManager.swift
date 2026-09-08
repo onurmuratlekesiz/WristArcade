@@ -24,7 +24,15 @@ public final class GameCenterManager: ObservableObject {
     
     public func authenticatePlayer() {
         let localPlayer = GKLocalPlayer.local
-        localPlayer.authenticateHandler = { [weak self] _, error in
+        #if os(watchOS)
+        DispatchQueue.main.async {
+            self.isAuthenticated = localPlayer.isAuthenticated
+            if localPlayer.isAuthenticated {
+                self.localPlayerName = localPlayer.displayName
+            }
+        }
+        #else
+        localPlayer.authenticateHandler = { [weak self] (_, error: Error?) in
             DispatchQueue.main.async {
                 if localPlayer.isAuthenticated {
                     self?.isAuthenticated = true
@@ -37,6 +45,7 @@ public final class GameCenterManager: ObservableObject {
                 }
             }
         }
+        #endif
     }
     
     /// Submits a high score to a Game Center leaderboard
