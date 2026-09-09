@@ -14,42 +14,42 @@ public struct GameCardView: View {
     }
     
     public var body: some View {
-        HStack(spacing: #if os(watchOS) 8 #else 12 #endif) {
+        HStack(spacing: isWatchOS ? 8 : 12) {
             // Game Icon
             ZStack {
-                RoundedRectangle(cornerRadius: #if os(watchOS) 9 #else 12 #endif)
+                RoundedRectangle(cornerRadius: isWatchOS ? 9 : 12)
                     .fill(game.accentColor.opacity(0.2))
-                    .frame(width: #if os(watchOS) 36 #else 48 #endif, height: #if os(watchOS) 36 #else 48 #endif)
+                    .frame(width: isWatchOS ? 36 : 48, height: isWatchOS ? 36 : 48)
                 
                 Image(systemName: game.systemIcon)
-                    .font(.system(size: #if os(watchOS) 17 #else 22 #endif))
+                    .font(.system(size: isWatchOS ? 17 : 22))
                     .foregroundColor(game.accentColor)
             }
             
             // Text info
-            VStack(alignment: .leading, spacing: #if os(watchOS) 2 #else 3 #endif) {
+            VStack(alignment: .leading, spacing: isWatchOS ? 2 : 3) {
                 HStack(spacing: 4) {
                     Text(game.localizedTitle)
-                        .font(.system(size: #if os(watchOS) 12 #else 16 #endif, weight: .bold))
+                        .font(.system(size: isWatchOS ? 12 : 16, weight: .bold))
                         .foregroundColor(.white)
                         .lineLimit(1)
                     
                     if isLocked {
                         Image(systemName: "lock.fill")
-                            .font(.system(size: #if os(watchOS) 9 #else 12 #endif))
+                            .font(.system(size: isWatchOS ? 9 : 12))
                             .foregroundColor(.yellow)
                     }
                 }
                 
                 Text(game.localizedSubtitle)
-                    .font(.system(size: #if os(watchOS) 9 #else 12 #endif))
+                    .font(.system(size: isWatchOS ? 9 : 12))
                     .foregroundColor(.gray)
                     .lineLimit(1)
                 
                 if highScore > 0 && !isLocked {
                     HStack(spacing: 3) {
                         Image(systemName: "crown.fill")
-                            .font(.system(size: #if os(watchOS) 8 #else 11 #endif))
+                            .font(.system(size: isWatchOS ? 8 : 11))
                             .foregroundColor(.yellow)
                         
                         let bestText: String = {
@@ -60,7 +60,7 @@ public struct GameCardView: View {
                         }()
                         
                         Text("\(LocalizationManager.shared.t("best")): \(bestText)")
-                            .font(.system(size: #if os(watchOS) 8 #else 11 #endif, weight: .semibold, design: .monospaced))
+                            .font(.system(size: isWatchOS ? 8 : 11, weight: .semibold, design: .monospaced))
                             .foregroundColor(.white.opacity(0.8))
                     }
                 }
@@ -75,21 +75,21 @@ public struct GameCardView: View {
                     onInfo()
                 }) {
                     Image(systemName: "info.circle")
-                        .font(.system(size: #if os(watchOS) 14 #else 20 #endif))
+                        .font(.system(size: isWatchOS ? 14 : 20))
                         .foregroundColor(.gray)
-                        .padding(#if os(watchOS) 2 #else 4 #endif)
+                        .padding(isWatchOS ? 2 : 4)
                 }
                 .buttonStyle(.plain)
             }
             
             Image(systemName: isLocked ? "lock.circle.fill" : "chevron.right")
-                .font(.system(size: #if os(watchOS) 11 #else 14 #endif))
+                .font(.system(size: isWatchOS ? 11 : 14))
                 .foregroundColor(isLocked ? .yellow : .gray.opacity(0.6))
         }
-        .padding(.horizontal, #if os(watchOS) 8 #else 12 #endif)
-        .padding(.vertical, #if os(watchOS) 6 #else 10 #endif)
+        .padding(.horizontal, isWatchOS ? 8 : 12)
+        .padding(.vertical, isWatchOS ? 6 : 10)
         .background(
-            RoundedRectangle(cornerRadius: #if os(watchOS) 10 #else 14 #endif)
+            RoundedRectangle(cornerRadius: isWatchOS ? 10 : 14)
                 .fill(Color.white.opacity(0.08))
         )
     }

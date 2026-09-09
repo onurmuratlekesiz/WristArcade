@@ -16,24 +16,24 @@ public struct GameInfoSheet: View {
     
     public var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: #if os(watchOS) 8 #else 16 #endif) {
+            VStack(alignment: .leading, spacing: isWatchOS ? 8 : 16) {
                 // Header
-                HStack(spacing: #if os(watchOS) 6 #else 10 #endif) {
+                HStack(spacing: isWatchOS ? 6 : 10) {
                     ZStack {
-                        RoundedRectangle(cornerRadius: #if os(watchOS) 6 #else 10 #endif)
+                        RoundedRectangle(cornerRadius: isWatchOS ? 6 : 10)
                             .fill(game.accentColor.opacity(0.2))
-                            .frame(width: #if os(watchOS) 24 #else 38 #endif, height: #if os(watchOS) 24 #else 38 #endif)
+                            .frame(width: isWatchOS ? 24 : 38, height: isWatchOS ? 24 : 38)
                         Image(systemName: game.systemIcon)
-                            .font(.system(size: #if os(watchOS) 12 #else 18 #endif, weight: .bold))
+                            .font(.system(size: isWatchOS ? 12 : 18, weight: .bold))
                             .foregroundColor(game.accentColor)
                     }
                     
                     VStack(alignment: .leading, spacing: 2) {
                         Text(game.localizedTitle)
-                            .font(.system(size: #if os(watchOS) 13 #else 18 #endif, weight: .black, design: .rounded))
+                            .font(.system(size: isWatchOS ? 13 : 18, weight: .black, design: .rounded))
                             .foregroundColor(.white)
                         Text(game.localizedCategory)
-                            .font(.system(size: #if os(watchOS) 8 #else 13 #endif, weight: .bold))
+                            .font(.system(size: isWatchOS ? 8 : 13, weight: .bold))
                             .foregroundColor(game.accentColor)
                     }
                     
@@ -44,7 +44,7 @@ public struct GameInfoSheet: View {
                         dismiss()
                     }) {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: #if os(watchOS) 16 #else 24 #endif))
+                            .font(.system(size: isWatchOS ? 16 : 24))
                             .foregroundColor(.gray)
                     }
                     .buttonStyle(.plain)
@@ -54,46 +54,46 @@ public struct GameInfoSheet: View {
                 Divider().background(Color.white.opacity(0.15))
                 
                 // Section 1: Objective (Amaç)
-                VStack(alignment: .leading, spacing: #if os(watchOS) 3 #else 6 #endif) {
+                VStack(alignment: .leading, spacing: isWatchOS ? 3 : 6) {
                     HStack(spacing: 4) {
                         Text("🎯")
-                            .font(.system(size: #if os(watchOS) 10 #else 15 #endif))
+                            .font(.system(size: isWatchOS ? 10 : 15))
                         Text(i18n.t("objective").uppercased())
-                            .font(.system(size: #if os(watchOS) 9 #else 13 #endif, weight: .black))
+                            .font(.system(size: isWatchOS ? 9 : 13, weight: .black))
                             .foregroundColor(.cyan)
                     }
                     Text(game.infoObjective)
-                        .font(.system(size: #if os(watchOS) 10 #else 15 #endif))
+                        .font(.system(size: isWatchOS ? 10 : 15))
                         .foregroundColor(.white.opacity(0.9))
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 
                 // Section 2: Controls (Kontroller)
-                VStack(alignment: .leading, spacing: #if os(watchOS) 3 #else 6 #endif) {
+                VStack(alignment: .leading, spacing: isWatchOS ? 3 : 6) {
                     HStack(spacing: 4) {
                         Text("🕹️")
-                            .font(.system(size: #if os(watchOS) 10 #else 15 #endif))
+                            .font(.system(size: isWatchOS ? 10 : 15))
                         Text(i18n.t("controls").uppercased())
-                            .font(.system(size: #if os(watchOS) 9 #else 13 #endif, weight: .black))
+                            .font(.system(size: isWatchOS ? 9 : 13, weight: .black))
                             .foregroundColor(.yellow)
                     }
                     Text(game.infoControls)
-                        .font(.system(size: #if os(watchOS) 10 #else 15 #endif))
+                        .font(.system(size: isWatchOS ? 10 : 15))
                         .foregroundColor(.white.opacity(0.9))
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 
                 // Section 3: Pro Tips (Püf Noktası)
-                VStack(alignment: .leading, spacing: #if os(watchOS) 3 #else 6 #endif) {
+                VStack(alignment: .leading, spacing: isWatchOS ? 3 : 6) {
                     HStack(spacing: 4) {
                         Text("💡")
-                            .font(.system(size: #if os(watchOS) 10 #else 15 #endif))
+                            .font(.system(size: isWatchOS ? 10 : 15))
                         Text(i18n.t("pro_tips").uppercased())
-                            .font(.system(size: #if os(watchOS) 9 #else 13 #endif, weight: .black))
+                            .font(.system(size: isWatchOS ? 9 : 13, weight: .black))
                             .foregroundColor(.green)
                     }
                     Text(game.infoTips)
-                        .font(.system(size: #if os(watchOS) 10 #else 15 #endif))
+                        .font(.system(size: isWatchOS ? 10 : 15))
                         .foregroundColor(.white.opacity(0.85))
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -104,18 +104,18 @@ public struct GameInfoSheet: View {
                     dismiss()
                 }) {
                     Text(i18n.t("got_it"))
-                        .font(.system(size: #if os(watchOS) 11 #else 16 #endif, weight: .bold))
+                        .font(.system(size: isWatchOS ? 11 : 16, weight: .bold))
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
-                        .frame(height: #if os(watchOS) 28 #else 44 #endif)
+                        .frame(height: isWatchOS ? 28 : 44)
                         .background(game.accentColor)
                         .clipShape(Capsule())
                 }
                 .buttonStyle(.plain)
                 .padding(.top, 4)
             }
-            .padding(.horizontal, #if os(watchOS) 8 #else 16 #endif)
-            .padding(.vertical, #if os(watchOS) 6 #else 12 #endif)
+            .padding(.horizontal, isWatchOS ? 8 : 16)
+            .padding(.vertical, isWatchOS ? 6 : 12)
         }
     }
 }

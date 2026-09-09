@@ -6,7 +6,11 @@ import UIKit
 import Foundation
 import SwiftUI
 
-#if !os(watchOS)
+#if os(watchOS)
+public let isWatchOS = true
+#else
+public let isWatchOS = false
+
 public enum CrownSensitivity {
     case low, medium, high
 }
@@ -34,7 +38,6 @@ public class WKInterfaceDevice {
     }
 }
 
-#if !os(watchOS)
 public struct DigitalCrownIOSModifier<V: BinaryFloatingPoint>: ViewModifier {
     @Binding var binding: V
     let from: V
