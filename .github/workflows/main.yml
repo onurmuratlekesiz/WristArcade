@@ -42,18 +42,17 @@ jobs:
         options:
           bundleIdPrefix: com.wristarcade
           deploymentTarget:
-            iOS: "16.0"
+            iOS: "17.0"
             watchOS: "9.0"
         targets:
           WristArcade:
             type: application
             platform: iOS
-            deploymentTarget: "16.0"
+            deploymentTarget: "17.0"
             sources:
               - path: Core
               - path: Games
               - path: Views
-              - path: Widgets
               - path: Assets.xcassets
               - path: WristArcadeApp.swift
             settings:

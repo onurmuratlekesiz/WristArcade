@@ -1,3 +1,4 @@
+#if os(watchOS)
 import WidgetKit
 import SwiftUI
 
@@ -166,3 +167,5 @@ public struct WristArcadeComplicationWidget: Widget {
         ])
     }
 }
+
+#endif
