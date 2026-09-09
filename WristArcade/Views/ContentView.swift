@@ -29,15 +29,15 @@ public struct ContentView: View {
         NavigationStack {
             ZStack {
                 ScrollView {
-                    VStack(spacing: 7) {
+                    VStack(spacing: #if os(watchOS) 7 #else 12 #endif) {
                         // Header Bar with XP Rank and Settings
                         HStack {
-                            HStack(spacing: 4) {
+                            HStack(spacing: #if os(watchOS) 4 #else 8 #endif) {
                                 Image(systemName: "gamecontroller.fill")
-                                    .font(.system(size: 13))
+                                    .font(.system(size: #if os(watchOS) 13 #else 20 #endif))
                                     .foregroundColor(themeManager.currentTheme.accentColor)
                                 Text(i18n.t("app_title"))
-                                    .font(.system(size: 13, weight: .black, design: .rounded))
+                                    .font(.system(size: #if os(watchOS) 13 #else 22 #endif, weight: .black, design: .rounded))
                                     .foregroundColor(.white)
                             }
                             
@@ -45,15 +45,15 @@ public struct ContentView: View {
                             
                             // Stats & Level Button
                             NavigationLink(destination: StatsAnalyticsView()) {
-                                HStack(spacing: 2) {
+                                HStack(spacing: 3) {
                                     Text(xpManager.currentRank.badge)
-                                        .font(.system(size: 10))
+                                        .font(.system(size: #if os(watchOS) 10 #else 14 #endif))
                                     Text("Lv.\(xpManager.currentLevel)")
-                                        .font(.system(size: 9, weight: .bold, design: .monospaced))
+                                        .font(.system(size: #if os(watchOS) 9 #else 13 #endif, weight: .bold, design: .monospaced))
                                         .foregroundColor(themeManager.currentTheme.accentColor)
                                 }
-                                .padding(.horizontal, 5)
-                                .padding(.vertical, 2)
+                                .padding(.horizontal, #if os(watchOS) 5 #else 10 #endif)
+                                .padding(.vertical, #if os(watchOS) 2 #else 5 #endif)
                                 .background(Color.white.opacity(0.1))
                                 .clipShape(Capsule())
                             }
@@ -61,44 +61,45 @@ public struct ContentView: View {
                             
                             NavigationLink(destination: SettingsView()) {
                                 Image(systemName: "gearshape.fill")
-                                    .font(.system(size: 12))
+                                    .font(.system(size: #if os(watchOS) 12 #else 18 #endif))
                                     .foregroundColor(.gray)
+                                    .padding(#if os(watchOS) 0 #else 4 #endif)
                             }
                             .buttonStyle(.plain)
                         }
-                        .padding(.horizontal, 6)
-                        .padding(.top, 2)
+                        .padding(.horizontal, #if os(watchOS) 6 #else 12 #endif)
+                        .padding(.top, #if os(watchOS) 2 #else 8 #endif)
                         
                         // 2P Wrist Duel Banner
                         NavigationLink(destination: WristDuelView()) {
-                            HStack(spacing: 6) {
+                            HStack(spacing: #if os(watchOS) 6 #else 12 #endif) {
                                 Text("⚔️")
-                                    .font(.system(size: 12))
-                                VStack(alignment: .leading, spacing: 1) {
+                                    .font(.system(size: #if os(watchOS) 12 #else 20 #endif))
+                                VStack(alignment: .leading, spacing: #if os(watchOS) 1 #else 3 #endif) {
                                     Text("BİLEK DÜELLOSU (2P)")
-                                        .font(.system(size: 9, weight: .heavy))
+                                        .font(.system(size: #if os(watchOS) 9 #else 15 #endif, weight: .heavy))
                                         .foregroundColor(.cyan)
-                                    Text("Aynı saatte karşılıklı 2 kişi oyna!")
-                                        .font(.system(size: 7))
+                                    Text("Aynı cihazda karşılıklı 2 kişi oyna!")
+                                        .font(.system(size: #if os(watchOS) 7 #else 12 #endif))
                                         .foregroundColor(.gray)
                                 }
                                 Spacer()
                                 Image(systemName: "chevron.right")
-                                    .font(.system(size: 8, weight: .bold))
+                                    .font(.system(size: #if os(watchOS) 8 #else 14 #endif, weight: .bold))
                                     .foregroundColor(.cyan)
                             }
-                            .padding(5)
+                            .padding(#if os(watchOS) 5 #else 12 #endif)
                             .background(
-                                RoundedRectangle(cornerRadius: 8)
+                                RoundedRectangle(cornerRadius: #if os(watchOS) 8 #else 12 #endif)
                                     .fill(Color.cyan.opacity(0.12))
                                     .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
+                                        RoundedRectangle(cornerRadius: #if os(watchOS) 8 #else 12 #endif)
                                             .stroke(Color.cyan.opacity(0.35), lineWidth: 1)
                                     )
                             )
                         }
                         .buttonStyle(.plain)
-                        .padding(.horizontal, 4)
+                        .padding(.horizontal, #if os(watchOS) 4 #else 12 #endif)
                     
                     // Daily Challenge Quest Card
                     let challenge = challengeManager.todayChallenge
@@ -112,25 +113,25 @@ public struct ContentView: View {
                             HapticManager.shared.play(.tap)
                         }
                     }) {
-                        HStack(spacing: 6) {
+                        HStack(spacing: #if os(watchOS) 6 #else 12 #endif) {
                             Text(challenge.isCompleted ? "✅" : "🔥")
-                                .font(.system(size: 14))
+                                .font(.system(size: #if os(watchOS) 14 #else 22 #endif))
                             
-                            VStack(alignment: .leading, spacing: 1) {
+                            VStack(alignment: .leading, spacing: #if os(watchOS) 1 #else 3 #endif) {
                                 HStack(spacing: 4) {
                                     Text(i18n.isTurkish ? challenge.titleTr : challenge.titleEn)
-                                        .font(.system(size: 9, weight: .black))
+                                        .font(.system(size: #if os(watchOS) 9 #else 14 #endif, weight: .black))
                                         .foregroundColor(challenge.isCompleted ? .green : .orange)
                                     
                                     if challengeManager.currentStreak > 0 {
                                         Text("• \(challengeManager.currentStreak)d 🔥")
-                                            .font(.system(size: 8, weight: .bold))
+                                            .font(.system(size: #if os(watchOS) 8 #else 12 #endif, weight: .bold))
                                             .foregroundColor(.yellow)
                                     }
                                 }
                                 
                                 Text(challenge.isCompleted ? (i18n.isTurkish ? "GÖREV TAMAMLANDI!" : "COMPLETED!") : (i18n.isTurkish ? challenge.descTr : challenge.descEn))
-                                    .font(.system(size: 7, weight: .medium))
+                                    .font(.system(size: #if os(watchOS) 7 #else 12 #endif, weight: .medium))
                                     .foregroundColor(.white.opacity(0.8))
                                     .lineLimit(1)
                             }
@@ -138,21 +139,21 @@ public struct ContentView: View {
                             Spacer()
                             
                             Image(systemName: "chevron.right")
-                                .font(.system(size: 8, weight: .bold))
+                                .font(.system(size: #if os(watchOS) 8 #else 14 #endif, weight: .bold))
                                 .foregroundColor(.gray)
                         }
-                        .padding(6)
+                        .padding(#if os(watchOS) 6 #else 12 #endif)
                         .background(
-                            RoundedRectangle(cornerRadius: 10)
+                            RoundedRectangle(cornerRadius: #if os(watchOS) 10 #else 14 #endif)
                                 .fill(challenge.isCompleted ? Color.green.opacity(0.15) : Color.orange.opacity(0.15))
                                 .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
+                                    RoundedRectangle(cornerRadius: #if os(watchOS) 10 #else 14 #endif)
                                         .stroke(challenge.isCompleted ? Color.green.opacity(0.4) : Color.orange.opacity(0.4), lineWidth: 1)
                                 )
                         )
                     }
                     .buttonStyle(.plain)
-                    .padding(.horizontal, 4)
+                    .padding(.horizontal, #if os(watchOS) 4 #else 12 #endif)
                     
                     // Pro Banner if not unlocked
                     if !storeKit.isProUser {
@@ -199,14 +200,15 @@ public struct ContentView: View {
                     
                     // Category Filter Pills
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 4) {
+                        HStack(spacing: #if os(watchOS) 4 #else 8 #endif) {
                             categoryPill(id: "all", title: i18n.t("filter_all"), icon: "square.grid.2x2.fill")
                             categoryPill(id: "cat_cards", title: i18n.t("cat_cards"), icon: "suit.club.fill")
                             categoryPill(id: "cat_crown", title: i18n.t("cat_crown"), icon: "crown.fill")
                             categoryPill(id: "cat_reflex", title: i18n.t("cat_reflex"), icon: "bolt.fill")
                             categoryPill(id: "cat_puzzle", title: i18n.t("cat_puzzle"), icon: "brain.head.profile")
                         }
-                        .padding(.horizontal, 4)
+                        .padding(.horizontal, #if os(watchOS) 4 #else 12 #endif)
+                        .padding(.vertical, #if os(watchOS) 2 #else 4 #endif)
                     }
                     
                     // Games List (60 Games)
@@ -234,7 +236,7 @@ public struct ContentView: View {
                             )
                         }
                         .buttonStyle(.plain)
-                        .padding(.horizontal, 4)
+                        .padding(.horizontal, #if os(watchOS) 4 #else 12 #endif)
                     }
                 }
                 .padding(.bottom, 12)
@@ -278,9 +280,17 @@ public struct ContentView: View {
                 .zIndex(100)
             }
         }
+        #if os(watchOS)
         .sheet(item: $selectedGame) { game in
             destinationView(for: game)
         }
+        #else
+        .fullScreenCover(item: $selectedGame) { game in
+            GameScreenContainer(game: game) {
+                destinationView(for: game)
+            }
+        }
+        #endif
         .sheet(item: $gameForInfo) { game in
             GameInfoSheet(game: game)
         }
@@ -444,15 +454,15 @@ public struct ContentView: View {
             selectedCategory = id
             HapticManager.shared.play(.click)
         }) {
-            HStack(spacing: 3) {
+            HStack(spacing: #if os(watchOS) 3 #else 6 #endif) {
                 Image(systemName: icon)
-                    .font(.system(size: 8))
+                    .font(.system(size: #if os(watchOS) 8 #else 13 #endif))
                 Text(title)
-                    .font(.system(size: 8, weight: isSelected ? .black : .semibold))
+                    .font(.system(size: #if os(watchOS) 8 #else 13 #endif, weight: isSelected ? .black : .semibold))
             }
             .foregroundColor(isSelected ? .black : .white)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
+            .padding(.horizontal, #if os(watchOS) 6 #else 12 #endif)
+            .padding(.vertical, #if os(watchOS) 3 #else 6 #endif)
             .background(isSelected ? Color.cyan : Color.white.opacity(0.12))
             .clipShape(Capsule())
         }

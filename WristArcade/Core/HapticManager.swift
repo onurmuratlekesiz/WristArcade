@@ -34,6 +34,50 @@ public class WKInterfaceDevice {
     }
 }
 
+#if !os(watchOS)
+public struct DigitalCrownIOSModifier<V: BinaryFloatingPoint>: ViewModifier {
+    @Binding var binding: V
+    let from: V
+    let through: V
+    let by: V
+    let isContinuous: Bool
+    
+    @State private var lastDragX: CGFloat = 0
+    
+    public func body(content: Content) -> some View {
+        content
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 1)
+                    .onChanged { value in
+                        let deltaX = value.translation.width - lastDragX
+                        lastDragX = value.translation.width
+                        
+                        let stepFactor = max(0.5, Double(by == 0 ? 1 : by))
+                        let range = abs(Double(through) - Double(from))
+                        let step: Double
+                        if !isContinuous && range > 0.01 && range <= 10.0 {
+                            step = (Double(deltaX) / 35.0) * Double(by == 0 ? 1 : by)
+                        } else if !isContinuous && range > 500.0 {
+                            step = Double(deltaX) * 2.0
+                        } else {
+                            step = Double(deltaX) * stepFactor * 0.8
+                        }
+                        
+                        var newValue = Double(binding) + step
+                        if !isContinuous {
+                            let minVal = min(Double(from), Double(through))
+                            let maxVal = max(Double(from), Double(through))
+                            newValue = max(minVal, min(maxVal, newValue))
+                        }
+                        binding = V(newValue)
+                    }
+                    .onEnded { _ in
+                        lastDragX = 0
+                    }
+            )
+    }
+}
+
 extension View {
     @ViewBuilder
     public func digitalCrownRotation<V: BinaryFloatingPoint>(
@@ -45,7 +89,13 @@ extension View {
         isContinuous: Bool = false,
         isHapticFeedbackEnabled: Bool = false
     ) -> some View {
-        self
+        self.modifier(DigitalCrownIOSModifier(
+            binding: binding,
+            from: from,
+            through: through,
+            by: by,
+            isContinuous: isContinuous
+        ))
     }
 }
 #endif

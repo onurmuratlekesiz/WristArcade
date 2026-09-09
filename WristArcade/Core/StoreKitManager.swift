@@ -10,7 +10,7 @@ public final class StoreKitManager: ObservableObject {
     // Product identifier configured in App Store Connect
     public static let proUnlockProductId = "com.wristarcade.pro_unlock"
     
-    @Published public private(set) var isProUser: Bool = false
+    @Published public private(set) var isProUser: Bool = true
     @Published public private(set) var proProduct: Product?
     @Published public private(set) var purchaseState: PurchaseState = .idle
     @Published public private(set) var errorMessage: String?
@@ -48,81 +48,33 @@ public final class StoreKitManager: ObservableObject {
             purchaseState = .idle
         } catch {
             self.errorMessage = "Failed to load Store products: \(error.localizedDescription)"
-            purchaseState = .failed
-        }
-    }
-    
-    /// Purchases the Pro Unlock
-    public func purchasePro() async -> Bool {
-        guard let product = proProduct else {
-            errorMessage = "Product not loaded yet."
-            return false
-        }
-        
-        purchaseState = .purchasing
-        do {
-            let result = try await product.purchase()
-            switch result {
-            case .success(let verification):
-                let transaction = try checkVerified(verification)
-                await transaction.finish()
-                await updatePurchasedState()
-                purchaseState = .successful
-                HapticManager.shared.play(.victory)
-                return true
-            case .userCancelled:
-                purchaseState = .idle
-                return false
-            case .pending:
-                purchaseState = .idle
-                return false
-            @unknown default:
-                purchaseState = .idle
-                return false
-            }
-        } catch {
-            self.errorMessage = error.localizedDescription
-            self.purchaseState = .failed
-            HapticManager.shared.play(.error)
-            return false
-        }
-    }
-    
-    /// Manually restores purchases
-    public func restorePurchases() async {
-        purchaseState = .loading
-        do {
-            try await AppStore.sync()
-            await updatePurchasedState()
             purchaseState = .idle
-            HapticManager.shared.play(.success)
-        } catch {
-            self.errorMessage = "Could not sync purchases: \(error.localizedDescription)"
-            purchaseState = .failed
-            HapticManager.shared.play(.error)
         }
+    }
+    
+    /// Purchases the Pro Unlock (Lifetime Unlocked)
+    public func purchasePro() async -> Bool {
+        self.isProUser = true
+        self.purchaseState = .successful
+        HapticManager.shared.play(.victory)
+        return true
+    }
+    
+    /// Manually restores purchases (Lifetime Unlocked)
+    public func restorePurchases() async {
+        self.isProUser = true
+        self.purchaseState = .idle
+        HapticManager.shared.play(.success)
     }
     
     /// Verifies current user entitlements
     public func updatePurchasedState() async {
-        var hasPro = false
-        for await result in Transaction.currentEntitlements {
-            if case .verified(let transaction) = result {
-                if transaction.productID == Self.proUnlockProductId && transaction.revocationDate == nil {
-                    hasPro = true
-                    break
-                }
-            }
-        }
-        self.isProUser = hasPro
+        self.isProUser = true
     }
     
-    /// Returns true if a specific game is unlocked (free game, pro user, or today's Daily Free Pro pass)
+    /// Returns true if a specific game is unlocked - permanently all 60 games unlocked
     public func isGameUnlocked(_ game: GameItem) -> Bool {
-        if !game.isPro { return true }
-        if isProUser { return true }
-        if game.id == ScoreManager.dailyFreeProGameId() { return true }
-        return false
+        return true
     }
     
     /// Verification helper checking cryptographic signature from Apple
