@@ -1,5 +1,7 @@
 import SwiftUI
+#if os(watchOS)
 import WatchKit
+#endif
 
 public struct LunarLanderGameView: View {
     @State private var crownAccumulator: Float = 0.0

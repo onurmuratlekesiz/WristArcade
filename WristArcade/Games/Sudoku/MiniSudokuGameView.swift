@@ -1,5 +1,7 @@
 import SwiftUI
+#if os(watchOS)
 import WatchKit
+#endif
 
 public struct MiniSudokuGameView: View {
     // 4x4 Mini Sudoku: 4 rows of 4 digits

@@ -1,5 +1,7 @@
 import Foundation
+#if os(watchOS)
 import WatchKit
+#endif
 import AVFoundation
 
 /// Retro 8-bit sound effects types for WristArcade games

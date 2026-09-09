@@ -1,5 +1,7 @@
 import SwiftUI
+#if os(watchOS)
 import WatchKit
+#endif
 
 public struct HangmanGameView: View {
     private let enWords = ["WATCH", "APPLE", "ARCADE", "CROWN", "PULSE", "LASER", "CYBER", "NEON", "ROBOT", "QUEST", "POWER", "GHOST"]

@@ -1,5 +1,7 @@
 import SwiftUI
+#if os(watchOS)
 import WatchKit
+#endif
 
 public struct GauntletGameView: View {
     @Environment(\.dismiss) private var dismiss

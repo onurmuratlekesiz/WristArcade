@@ -1,5 +1,7 @@
 import SwiftUI
+#if os(watchOS)
 import WatchKit
+#endif
 
 public struct NineMenMorrisGameView: View {
     enum GamePhase: Equatable {
